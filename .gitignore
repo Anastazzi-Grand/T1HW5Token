@@ -41,10 +41,8 @@ buildNumber.properties
 # VS Code
 .vscode/
 
-# Logs and databases
+# Logs
 *.log
-*.sql
-*.sqlite
 
 # OS generated
 .DS_Store

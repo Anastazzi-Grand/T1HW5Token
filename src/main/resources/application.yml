@@ -1,0 +1,21 @@
+# Подключаем настройки из отдельного файла
+spring:
+  config:
+    import: classpath:application-db.properties
+
+  # Настройка Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  # Настройка JPA
+  jpa:
+    hibernate:
+      ddl-auto: validate   # Проверяем, что схема совпадает с миграциями
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org.springframework.jdbc: DEBUG
+    org.flywaydb: INFO
