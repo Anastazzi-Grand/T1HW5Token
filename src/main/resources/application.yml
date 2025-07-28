@@ -1,5 +1,14 @@
 # Подключаем настройки из отдельного файла
 spring:
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 5s
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
   config:
     import: classpath:application-db.properties
 
