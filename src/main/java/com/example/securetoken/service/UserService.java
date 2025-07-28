@@ -71,4 +71,12 @@ public class UserService {
         // Сохраняем в БД
         return userRepository.save(user);
     }
+
+    /**
+     * Находит и возвращает сущность User (для внутреннего использования сервисами)
+     */
+    public User findByUsernameEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
+    }
 }

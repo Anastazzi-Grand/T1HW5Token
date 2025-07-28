@@ -26,7 +26,7 @@ public class SecureController {
 
     private final UserService userService;
 
-    @GetMapping("/me")
+    @GetMapping("/user")
     @Operation(
             summary = "Получить данные текущего пользователя",
             security = @SecurityRequirement(name = "bearerAuth"),

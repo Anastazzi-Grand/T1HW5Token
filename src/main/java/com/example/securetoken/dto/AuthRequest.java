@@ -13,4 +13,9 @@ public class AuthRequest {
 
     @NotBlank(message = "Пароль обязателен")
     private String password;
+
+    public AuthRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

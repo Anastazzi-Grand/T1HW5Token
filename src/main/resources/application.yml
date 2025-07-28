@@ -31,13 +31,13 @@ logging:
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger-ui/index.html
   api-docs:
     path: /v3/api-docs
-  info:
-    title: Secure Token API
-    description: API с защитой токенов через JWE+JWS и Redis
-    version: 1.0.0
-    contact:
-      name: Anastazzi
-      email: a.kresnikova@yandex.ru
+  # Добавляем описание безопасности
+  security:
+    - name: Bearer Authentication
+      type: http
+      scheme: bearer
+      bearer-format: JWT
+      description: Введите токен в формате **Bearer {token}**

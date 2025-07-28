@@ -2,6 +2,7 @@ package com.example.securetoken.controller;
 
 import com.example.securetoken.dto.AuthRequest;
 import com.example.securetoken.dto.AuthResponse;
+import com.example.securetoken.dto.RegisterRequest;
 import com.example.securetoken.dto.RefreshTokenRequest;
 import com.example.securetoken.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
@@ -21,7 +22,7 @@ import java.text.ParseException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-@Tag(name = "Аутентификация", description = "API для входа, выхода и обновления токенов")
+@Tag(name = "Аутентификация", description = "API для входа, выхода, регистрации и обновления токенов")
 public class AuthController {
 
     private final AuthenticationService authenticationService;
@@ -38,6 +39,21 @@ public class AuthController {
     )
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request) throws ParseException, JOSEException {
         AuthResponse response = authenticationService.authenticate(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    @Operation(
+            summary = "Регистрация нового пользователя",
+            description = "Создаёт нового пользователя и возвращает пару токенов (access + refresh)",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Регистрация успешна",
+                            content = @Content(schema = @Schema(implementation = AuthResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Имя пользователя уже занято или пароль слишком короткий")
+            }
+    )
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) throws ParseException, JOSEException {
+        AuthResponse response = authenticationService.register(request);
         return ResponseEntity.ok(response);
     }
 
