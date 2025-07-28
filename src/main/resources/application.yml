@@ -28,3 +28,16 @@ logging:
   level:
     org.springframework.jdbc: DEBUG
     org.flywaydb: INFO
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+  info:
+    title: Secure Token API
+    description: API с защитой токенов через JWE+JWS и Redis
+    version: 1.0.0
+    contact:
+      name: Anastazzi
+      email: a.kresnikova@yandex.ru

@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-
 
 /**
  * Основная конфигурация Spring Security.
@@ -37,21 +35,20 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors() // Включаем CORS (если нужно)
-                .and()
-                .csrf(AbstractHttpConfigurer::disable)
+        http
+                // Отключаем CSRF — мы используем JWT, не сессии
+                .csrf().disable()
 
                 // Управление сессиями: stateless
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
 
-                // Настройка прав доступа к эндпоинтам
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login").permitAll()        // Разрешить вход
-                        .requestMatchers("/refresh").permitAll()      // Разрешить обновление токена
-                        .requestMatchers("/logout").authenticated()   // Выход — только для авторизованных
-                        .anyRequest().authenticated()                 // Все остальные — только с токеном
+                // Разрешаем доступ к Swagger
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
                 )
 
                 // Добавляем наш JWT-фильтр ДО стандартной аутентификации по логину/паролю
